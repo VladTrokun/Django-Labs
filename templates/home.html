@@ -2,11 +2,14 @@
 
 {% block content %}
 
-<h2>Головна сторінка</h2>
+<h2>{{ title }}</h2>
+<p>{{ description }}</p>
 
-<p>Ласкаво просимо до магазину рослин GreenShop</p>
+<p>Обери розділ:</p>
 
-<a href="/plants/">Наші рослини</a><br>
-<a href="/about/">Про магазин</a>
+<ul>
+    <li><a href="{% url 'plants' %}">🌿 Наші рослини</a></li>
+    <li><a href="{% url 'about' %}">ℹ️ Про магазин</a></li>
+</ul>
 
 {% endblock %}

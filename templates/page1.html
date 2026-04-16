@@ -4,13 +4,26 @@
 
 <h2>Наші рослини</h2>
 
+<h3>Категорії:</h3>
 <ul>
-<li>Монстера</li>
-<li>Фікус</li>
-<li>Сукуленти</li>
-<li>Орхідея</li>
+    <li><a href="{% url 'plants' %}">Всі</a></li>
+    {% for cat in categories %}
+        <li>
+            <a href="?category={{ cat.id }}">{{ cat.name }}</a>
+        </li>
+    {% endfor %}
 </ul>
 
-<a href="/">На головну</a>
+<hr>
+
+<ul>
+    {% for plant in plants %}
+        <li>
+            <b>{{ plant.name }}</b> — {{ plant.price }} грн
+        </li>
+    {% empty %}
+        <li>Немає рослин</li>
+    {% endfor %}
+</ul>
 
 {% endblock %}
