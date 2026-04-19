@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="category-header">
+    <h2 class="category-title">🌿 Категорія: {{ category.name }}</h2>
+    <p class="category-subtitle">Перегляд товарів у обраному розділі</p>
+</div>
+
+<div class="plants-grid">
+    {% for plant in plants %}
+        <div class="product-card">
+            <a href="{% url 'plant_detail' plant.pk %}" class="card-link">
+                <div class="card-img-box">
+                    {% if plant.image %}
+                        <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+                    {% else %}
+                        <div class="no-image-placeholder">
+                            <span class="placeholder-icon">🌿</span>
+                            <p>Фото очікується</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-info">
+                    <h3>{{ plant.name }}</h3>
+                    <p class="card-price">{{ plant.price }} грн</p>
+                </div>
+            </a>
+            <div class="card-action">
+                <button class="btn-buy">🛒 Купити</button>
+            </div>
+        </div>
+    {% empty %}
+        <div class="empty-category-box">
+            <p>У цій категорії ще немає товарів. <a href="{% url 'plants' %}" class="back-link">Повернутися до каталогу</a></p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

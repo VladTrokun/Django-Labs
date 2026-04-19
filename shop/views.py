@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from .models import Plant, Category
 
 
@@ -35,5 +35,23 @@ def about(request):
 
     return render(request, 'page2.html', {
         'info': 'Ми продаємо найкращі рослини 🌿',
+        'categories': categories
+    })
+
+def category_detail(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    plants = category.plants.all()
+    categories = Category.objects.all()
+    return render(request, 'page4.html', {
+        'category': category,
+        'plants': plants,
+        'categories': categories
+    })
+
+def plant_detail(request, pk):
+    plant = get_object_or_404(Plant, pk=pk)
+    categories = Category.objects.all()
+    return render(request, 'page3.html', {
+        'plant': plant,
         'categories': categories
     })

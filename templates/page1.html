@@ -1,29 +1,59 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<div class="category-header">
+    <h2>🌿 Наш каталог рослин</h2>
+    <p class="category-subtitle">Знайдіть ідеальну рослину для вашого затишку</p>
+</div>
 
-<h2>Наші рослини</h2>
+<div class="catalog-layout">
+    <aside class="sidebar">
+        <h4>Категорії</h4>
+        <ul class="sidebar-list">
+            <li>
+                <a href="{% url 'plants' %}" class="category-link {% if not request.GET.category %}active-cat{% endif %}">
+                    Усі рослини
+                </a>
+            </li>
+            {% for cat in categories %}
+                <li>
+                    <a href="?category={{ cat.id }}" class="category-link {% if request.GET.category == cat.id|stringformat:'s' %}active-cat{% endif %}">
+                        {{ cat.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </aside>
 
-<h3>Категорії:</h3>
-<ul>
-    <li><a href="{% url 'plants' %}">Всі</a></li>
-    {% for cat in categories %}
-        <li>
-            <a href="?category={{ cat.id }}">{{ cat.name }}</a>
-        </li>
-    {% endfor %}
-</ul>
-
-<hr>
-
-<ul>
-    {% for plant in plants %}
-        <li>
-            <b>{{ plant.name }}</b> — {{ plant.price }} грн
-        </li>
-    {% empty %}
-        <li>Немає рослин</li>
-    {% endfor %}
-</ul>
-
+    <main class="plants-grid">
+        {% for plant in plants %}
+            <div class="product-card">
+                <a href="{% url 'plant_detail' plant.pk %}" class="card-link">
+                    <div class="card-img-box">
+                        {% if plant.image %}
+                            <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+                        {% else %}
+                            <div class="no-image-placeholder">
+                                <span class="placeholder-icon">🌿</span>
+                                <p>Немає фото</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-info">
+                        <h3>{{ plant.name }}</h3>
+                        <p class="card-price">{{ plant.price }} грн</p>
+                    </div>
+                </a>
+                <div class="card-action">
+                    <button class="btn-buy">🛒 Купити</button>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-category-box">
+                <p>На жаль, тут поки нічого немає. 🌿</p>
+            </div>
+        {% endfor %}
+    </main>
+</div>
 {% endblock %}

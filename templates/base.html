@@ -1,242 +1,66 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Vita Garden</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background-color: #F6F7F2;
-        }
-
-        /* HEADER */
-        header {
-            background-color: #dfe6dc;
-            padding: 20px 40px;
-        }
-
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 600;
-            color: #2e3d2f;
-        }
-
-        .logo span {
-            color: #7aa874;
-        }
-
-        /* MENU */
-        nav {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #2e3d2f;
-            font-size: 14px;
-        }
-
-        nav a:hover {
-            border-bottom: 2px solid black;
-        }
-
-        /* ICONS */
-        .icons {
-            display: flex;
-            gap: 15px;
-            font-size: 18px;
-        }
-
-        .icons a {
-            text-decoration: none;
-            color: #2e3d2f;
-            transition: 0.3s;
-        }
-
-        .icons a:hover {
-            transform: scale(1.2);
-        }
-
-        /* CATEGORY BUTTONS */
-        .categories {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 15px;
-        }
-
-        .category-btn {
-            background-color: #7aa874;
-            color: white;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .category-btn:hover {
-            background-color: #5f8c5a;
-        }
-
-        /* CONTENT */
-        .container {
-            padding: 40px;
-        }
-
-        /* FOOTER */
-        footer {
-            background-color: #2e3d2f;
-            color: white;
-            padding: 30px 40px;
-            margin-top: 40px;
-        }
-
-        .footer-container {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 100px;
-            align-items: flex-start;
-        }
-
-        .footer-column {
-            flex: 1;
-            max-width: 300px;
-        }
-
-        .footer-column h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-
-        .footer-column p,
-        .footer-column a {
-            font-size: 14px;
-            color: #ddd;
-            text-decoration: none;
-            margin: 5px 0;
-            display: block;
-        }
-
-        .footer-column a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-bottom {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #aaa;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        .container {
-            flex: 1;
-        }
-
-        footer {
-            flex-shrink: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
-
 <body>
-
-<header>
-    <div class="header-container">
-
-        <!-- ЛОГО -->
-        <div class="logo">
-            🌿 <span>Vita</span> Garden
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a href="{% url 'home' %}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+                    <img src="{% static 'images/logo.png' %}" alt="Vita Garden">
+                    <div style="display: flex; flex-direction: column; line-height: 1;">
+                        <div class="logo-text">
+                            <span class="logo-vita">Vita</span> Garden
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <nav>
+                <a href="{% url 'home' %}">ГОЛОВНА</a>
+                <a href="{% url 'plants' %}">КАТАЛОГ</a>
+                <a href="{% url 'about' %}">ПРО НАС</a>
+            </nav>
+            <div class="icons">
+                <a href="#">🔍</a><a href="#">👤</a><a href="#">♥️</a><a href="#">🛒</a>
+            </div>
         </div>
-
-        <!-- МЕНЮ -->
-        <nav>
-            <a href="{% url 'home' %}">ГОЛОВНА</a>
-            <a href="{% url 'plants' %}">КАТАЛОГ</a>
-            <a href="{% url 'about' %}">ПРО НАС</a>
-        </nav>
-
-        <!-- ІКОНКИ -->
-        <div class="icons">
-            <a href="#">🔍</a>
-            <a href="#">👤</a>
-            <a href="#">♥️</a>
-            <a href="#">🛒</a>
+        <div class="categories-nav">
+            {% for cat in categories %}
+                <a href="{% url 'category_detail' cat.id %}" class="category-btn">{{ cat.name }}</a>
+            {% endfor %}
         </div>
+    </header>
 
+    <div class="container">
+        {% block content %}{% endblock %}
     </div>
 
-    <!-- КАТЕГОРІЇ -->
-    <div class="categories">
-        {% for cat in categories %}
-            <a href="{% url 'plants' %}?category={{ cat.id }}" class="category-btn">
-                {{ cat.name }}
-            </a>
-        {% endfor %}
-    </div>
-</header>
-
-<!-- КОНТЕНТ -->
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-
-<!-- ФУТЕР -->
-<footer>
-    <div class="footer-container">
-
-        <div class="footer-column">
-            <h4>Vita Garden</h4>
-            <p>Магазин кімнатних рослин 🌿</p>
-            <p>Створюємо затишок у вашому домі.</p>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-column">
+                <h4>Vita Garden</h4>
+                <p>Магазин кімнатних рослин 🌿</p>
+                <p>Створюємо затишок у вашому домі.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Навігація</h4>
+                <a href="{% url 'home' %}">Головна</a>
+                <a href="{% url 'plants' %}">Каталог</a>
+                <a href="{% url 'about' %}">Про нас</a>
+            </div>
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <p>📍 Луцьк, Україна</p>
+                <p>📞 +380 00 000 00 00</p>
+                <p>✉️ vitagarden@gmail.com</p>
+            </div>
         </div>
-
-        <div class="footer-column">
-            <h4>Навігація</h4>
-            <a href="{% url 'home' %}">Головна</a>
-            <a href="{% url 'plants' %}">Каталог</a>
-            <a href="{% url 'about' %}">Про нас</a>
-        </div>
-
-        <div class="footer-column">
-            <h4>Контакти</h4>
-            <p>📍 Луцьк, Україна</p>
-            <p>📞 +380 00 000 00 00</p>
-            <p>✉️ vitagarden@gmail.com</p>
-        </div>
-
-    </div>
-
-    <div class="footer-bottom">
-        © 2026 Vita Garden | Всі права захищені
-    </div>
-</footer>
-
+        <div class="footer-bottom">© 2026 Vita Garden | Всі права захищені</div>
+    </footer>
 </body>
 </html>

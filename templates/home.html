@@ -1,15 +1,58 @@
 {% extends "base.html" %}
 
 {% block content %}
+<section class="hero-section">
+    <div class="hero-content">
+        <h1>Твій власний зелений куточок</h1>
+        <p>Vita Garden — це більше, ніж магазин. Це простір, де кожна рослина має свою історію та характер.</p>
+        <a href="{% url 'plants' %}" class="btn-main">Переглянути каталог</a>
+    </div>
+</section>
 
-<h2>{{ title }}</h2>
-<p>{{ description }}</p>
+<h2 class="home-title">Чому обирають нас?</h2>
+<section class="benefits">
+    <div class="benefit-card">
+        <span>🌿</span>
+        <h3>Здорові рослини</h3>
+        <p>Кожен листочок проходить ретельну перевірку перед тим, як потрапити до вас.</p>
+    </div>
+    <div class="benefit-card">
+        <span>📖</span>
+        <h3>Експертні поради</h3>
+        <p>Надаємо детальні поради щодо догляду та вибору місця в інтер'єрі.</p>
+    </div>
+    <div class="benefit-card">
+        <span>🚚</span>
+        <h3>Бережна доставка</h3>
+        <p>Запаковуємо рослини так, щоб вони доїхали до вас у ідеальному стані.</p>
+    </div>
+</section>
 
-<p>Обери розділ:</p>
+<div class="fact-box">
+    <h4 class="fact-title">Чи знаєте ви?</h4>
+    <p class="fact-text">Одна монстера може очистити повітря в цілій кімнаті за добу! 🌿</p>
+</div>
 
-<ul>
-    <li><a href="{% url 'plants' %}">🌿 Наші рослини</a></li>
-    <li><a href="{% url 'about' %}">ℹ️ Про магазин</a></li>
-</ul>
+<h2 class="home-title">Популярні розділи</h2>
+<section class="category-grid">
+    {% for cat in categories %}
+        <a href="{% url 'category_detail' cat.id %}" class="category-item">
+            {{ cat.name }}
+        </a>
+    {% empty %}
+    <div class="empty-category-box">
+        <p>Категорії скоро з'являться!</p>
+        <a href="/" class="back-link">Повернутися на головну</a>
+    </div>
+{% endfor %}
+</section>
 
+<section class="about-mini">
+    <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=800&q=80" alt="Про нас">
+    <div class="about-text">
+    <h2 class="about-title">Ми створюємо затишок</h2>
+    <p class="about-description">Наша місія — наповнити ваше життя зеленою енергією. Ми віримо, що рослини роблять людей щасливішими, а оселі — живими.</p>
+    <a href="{% url 'about' %}" class="about-link">Дізнатися більше про нас</a>
+</div>
+</section>
 {% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="product-container">
+    <div class="product-image-box">
+        {% if plant.image %}
+            <img src="{{ plant.image.url }}" alt="{{ plant.name }}">
+        {% else %}
+            <div class="product-image-placeholder">
+                <span class="placeholder-icon">🌿</span>
+                <p>Фото додається</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="product-info">
+        <span class="category-badge">{{ plant.category.name }}</span>
+        <h1 class="product-title">{{ plant.name }}</h1>
+        <div class="product-price-big">{{ plant.price }} грн</div>
+
+        <div class="description-text">
+            {% if plant.description %}
+                {{ plant.description }}
+            {% else %}
+                <p><strong>{{ plant.name }}</strong> — це унікальна рослина з нашої колекції Vita Garden. Вона ідеально підходить для створення природного акценту у вашому домі.</p>
+            {% endif %}
+        </div>
+
+        <table class="research-table">
+            <tr>
+                <th>Назва виду</th>
+                <td>{{ plant.name }}</td>
+            </tr>
+            <tr>
+                <th>Категорія</th>
+                <td>{{ plant.category.name }}</td>
+            </tr>
+            <tr>
+                <th>Полив</th>
+                <td>{{ plant.watering|default:"Помірний" }}</td>
+            </tr>
+            <tr>
+                <th>Освітлення</th>
+                <td>{{ plant.light|default:"Яскраве розсіяне" }}</td>
+            </tr>
+        </table>
+
+        <div class="product-action">
+            <button class="btn-buy-now">
+                <span class="cart-icon">🛒</span> ДОДАТИ У КОШИК
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
