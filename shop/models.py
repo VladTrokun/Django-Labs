@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -28,3 +29,23 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Замовлення {self.id}"
+
+class Review(models.Model):
+    plant = models.ForeignKey(Plant, on_delete=models.CASCADE, related_name='reviews')
+    user_name = models.CharField(max_length=100, verbose_name="Ваше ім'я")
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        verbose_name="Оцінка"
+    )
+    comment = models.TextField(verbose_name="Коментар")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Оцінка {self.rating} для {self.plant.name}"
+
+class Newsletter(models.Model):
+    email = models.EmailField(unique=True)
+    subscribed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
